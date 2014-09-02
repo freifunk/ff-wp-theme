@@ -705,7 +705,7 @@ div.aligncenter {
 
 .header-back
 {
-background-image:url(../freifunk-community-template/images/freifunk_community_header.png); 
+background-image:url('images/freifunk_community_header.png'); 
 width:400px; 
 height:200px;
 }
@@ -782,7 +782,7 @@ h2 {
 
 .header-back
 {
-background-image:url(../freifunk-community-template/images/freifunk_community_header.png); 
+background-image:url('images/freifunk_community_header.png'); 
 width:759px; 
 height:200px;
 }
@@ -854,7 +854,7 @@ h2 {
 
 .header-back
 {
-background-image:url(../freifunk-community-template/images/freifunk_community_header.png); 
+background-image:url('images/freifunk_community_header.png'); 
 width:759px; 
 height:200px;
 }
