@@ -1,48 +1,40 @@
 <?php
 /**
- * @package WordPress
- * @subpackage Default_Theme
+ * The template for displaying Search Results.
+ *
+ * @package Quark
+ * @since Quark 1.0
  */
 
 get_header(); ?>
 
-	<div id="content" class="narrowcolumn" role="main">
-
-	<?php if (have_posts()) : ?>
-
-		<h2 class="pagetitle"><?php _e('Search Results', 'kubrick'); ?></h2>
-
-		<div class="navigation">
-			<div class="alignleft"><?php next_posts_link(__('&laquo; Older Entries', 'kubrick')) ?></div>
-			<div class="alignright"><?php previous_posts_link(__('Newer Entries &raquo;', 'kubrick')) ?></div>
-		</div>
+	<div id="primary" class="site-content row" role="main">
 
 
-		<?php while (have_posts()) : the_post(); ?>
+		<div class="col grid_8_of_12">
 
-			<div <?php post_class(); ?>>
-				<h3 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php printf(__('Permanent Link to %s', 'kubrick'), the_title_attribute('echo=0')); ?>"><?php the_title(); ?></a></h3>
-				<small><?php the_time('l, F jS, Y') ?></small>
+			<?php if ( have_posts() ) : ?>
 
-				<p class="postmetadata"><?php the_tags(__('Tags:', 'kubrick') . ' ', ', ', '<br />'); ?> <?php printf(__('Posted in %s', 'kubrick'), get_the_category_list(', ')); ?> | <?php edit_post_link(__('Edit', 'kubrick'), '', ' | '); ?>  <?php comments_popup_link(__('No Comments &#187;', 'kubrick'), __('1 Comment &#187;', 'kubrick'), __('% Comments &#187;', 'kubrick'), '', __('Comments Closed', 'kubrick') ); ?></p>
-			</div>
+				<header class="page-header">
+					<h1 class="page-title"><?php printf( esc_html__( 'Search Results for: %s', 'quark' ), '<span>&ldquo;' . get_search_query() . '&rdquo;</span>' ); ?></h1>
+				</header>
 
-		<?php endwhile; ?>
+				<?php // Start the Loop ?>
+				<?php while ( have_posts() ) : the_post(); ?>
+					<?php get_template_part( 'content', get_post_format() ); ?>
+				<?php endwhile; ?>
 
-		<div class="navigation">
-			<div class="alignleft"><?php next_posts_link(__('&laquo; Older Entries', 'kubrick')) ?></div>
-			<div class="alignright"><?php previous_posts_link(__('Newer Entries &raquo;', 'kubrick')) ?></div>
-		</div>
+				<?php quark_content_nav( 'nav-below' ); ?>
 
-	<?php else : ?>
+			<?php else : ?>
 
-		<h2 class="center"><?php _e('No posts found. Try a different search?', 'kubrick'); ?></h2>
-		<?php get_search_form(); ?>
+				<?php get_template_part( 'no-results' ); // Include the template that displays a message that posts cannot be found ?>
 
-	<?php endif; ?>
+			<?php endif; // end have_posts() check ?>
 
-	</div>
+		</div> <!-- /.col.grid_8_of_12 -->
+		<?php get_sidebar(); ?>
 
-<?php get_sidebar(); ?>
+	</div> <!-- /#primary.site-content.row -->
 
 <?php get_footer(); ?>
