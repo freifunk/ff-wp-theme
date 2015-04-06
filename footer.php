@@ -1,19 +1,64 @@
 <?php
 /**
- * @package WordPress
- * @subpackage Default_Theme
+ * The template for displaying the footer.
+ *
+ * Contains the closing of the id #maincontentcontainer div and all content after.
+ * There are also four footer widgets displayed. These will be displayed from
+ * one to four columns, depending on how many widgets are active.
+ *
+ * @package Quark
+ * @since Quark 1.0
  */
 ?>
 
-<hr />
-<div id="footer" role="contentinfo">
-<!-- If you'd like to support WordPress, having the "powered by" link somewhere on your blog is the best way; it's our only promotion or advertising. -->
-	<p><a href="http://freifunk.net/impressum">Impressum & Kontakt</a>
-		<br /><?php printf(__('%1$s and %2$s.', 'kubrick'), '<a href="' . get_bloginfo('rss2_url') . '">' . __('Entries (RSS)', 'kubrick') . '</a>', '<a href="' . get_bloginfo('comments_rss2_url') . '">' . __('Comments (RSS)', 'kubrick') . '</a>'); ?>
-		<!-- <?php printf(__('%d queries. %s seconds.', 'kubrick'), get_num_queries(), timer_stop(0, 3)); ?> -->
-			<br />Dieser <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/InteractiveResource" rel="dc:type">Inhalt</span> ist unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons-Lizenz</a> lizenziert. </p>
-</div>
-</div>
-		<?php wp_footer(); ?>
+		<?php	do_action( 'quark_after_woocommerce' ); ?>
+	</div> <!-- /#maincontentcontainer -->
+
+	<div id="footercontainer">
+
+		<footer class="site-footer row" role="contentinfo">
+
+			<?php
+			// Count how many footer sidebars are active so we can work out how many containers we need
+			$footerSidebars = 0;
+			for ( $x=1; $x<=4; $x++ ) {
+				if ( is_active_sidebar( 'sidebar-footer' . $x ) ) {
+					$footerSidebars++;
+				}
+			}
+
+			// If there's one or more one active sidebars, create a row and add them
+			if ( $footerSidebars > 0 ) { ?>
+				<?php
+				// Work out the container class name based on the number of active footer sidebars
+				$containerClass = "grid_" . 12 / $footerSidebars . "_of_12";
+
+				// Display the active footer sidebars
+				for ( $x=1; $x<=4; $x++ ) {
+					if ( is_active_sidebar( 'sidebar-footer'. $x ) ) { ?>
+						<div class="col <?php echo $containerClass?>">
+							<div class="widget-area" role="complementary">
+								<?php dynamic_sidebar( 'sidebar-footer'. $x ); ?>
+							</div>
+						</div> <!-- /.col.<?php echo $containerClass?> -->
+					<?php }
+				} ?>
+
+			<?php } ?>
+
+		</footer> <!-- /.site-footer.row -->
+
+		<?php if ( of_get_option( 'footer_content', quark_get_credits() ) ) {
+			echo '<div class="row smallprint">';
+			echo apply_filters( 'meta_content', wp_kses_post( of_get_option( 'footer_content', quark_get_credits() ) ) );
+			echo '</div> <!-- /.smallprint -->';
+		} ?>
+
+	</div> <!-- /.footercontainer -->
+
+</div> <!-- /.#wrapper.hfeed.site -->
+
+<?php wp_footer(); ?>
 </body>
+
 </html>

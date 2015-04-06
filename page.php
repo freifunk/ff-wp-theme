@@ -1,28 +1,35 @@
 <?php
 /**
- * @package WordPress
- * @subpackage Default_Theme
+ * The main template file.
+ *
+ * This is the most generic template file in a WordPress theme
+ * and one of the two required files for a theme (the other being style.css).
+ * It is used to display a page when nothing more specific matches a query.
+ * E.g., it puts together the home page when no home.php file exists.
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package Quark
+ * @since Quark 1.0
  */
 
 get_header(); ?>
 
-	<div id="content" class="narrowcolumn" role="main">
+	<div id="primary" class="site-content row" role="main">
 
-		<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-		<?php the_breadcrumb(); ?>
-		<div class="post" id="post-<?php the_ID(); ?>">
-		<h2><?php the_title(); ?></h2>
-			<div class="entry">
-				<?php the_content('<p class="serif">' . __('Read the rest of this page &raquo;', 'kubrick') . '</p>'); ?>
+		<div class="col grid_8_of_12">
 
-				<?php wp_link_pages(array('before' => '<p><strong>' . __('Pages:', 'kubrick') . '</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
+			<?php if ( have_posts() ) : ?>
 
-			</div>
-		</div>
-		<?php endwhile; endif; ?>
-	<?php edit_post_link(__('Edit this entry.', 'kubrick'), '<p>', '</p>'); ?>
-	</div>
+				<?php // Start the Loop ?>
+				<?php while ( have_posts() ) : the_post(); ?>
+					<?php get_template_part( 'content', 'page' ); ?>
+				<?php endwhile; ?>
 
-<?php get_sidebar(); ?>
+			<?php endif; // end have_posts() check ?>
+
+		</div> <!-- /.col.grid_8_of_12 -->
+		<?php get_sidebar(); ?>
+
+	</div> <!-- /#primary.site-content.row -->
 
 <?php get_footer(); ?>

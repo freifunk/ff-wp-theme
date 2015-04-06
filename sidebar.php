@@ -1,18 +1,34 @@
 <?php
 /**
- * @package WordPress
- * @subpackage Default_Theme
+ * The Sidebar containing the main widget areas.
+ *
+ * @package Quark
+ * @since Quark 1.0
  */
 ?>
-	<div id="sidebar" role="complementary">
-		<ul>
-		<?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
+	<div class="col grid_4_of_12">
+
 		<div id="secondary" class="widget-area" role="complementary">
-			<?php dynamic_sidebar( 'sidebar-1' ); ?>
-		</div><!-- #secondary -->
-	<?php endif; ?>	
-	<li><a href="http://freifunk.net"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/button_freifunk.png"></a></li>
-		</ul>
+			<?php
+			do_action( 'before_sidebar' );
 
-	</div>
+			if ( is_active_sidebar( 'sidebar-main' ) ) {
+				dynamic_sidebar( 'sidebar-main' );
+			}
 
+			if ( ( is_home() || is_archive() ) && is_active_sidebar( 'sidebar-blog' ) ) {
+				dynamic_sidebar( 'sidebar-blog' );
+			}
+
+			if ( is_single() && is_active_sidebar( 'sidebar-single' ) ) {
+				dynamic_sidebar( 'sidebar-single' );
+			}
+
+			if ( is_page() && is_active_sidebar( 'sidebar-page' ) ) {
+				dynamic_sidebar( 'sidebar-page' );
+			}
+			?>
+
+		</div> <!-- /#secondary.widget-area -->
+
+	</div> <!-- /.col.grid_4_of_12 -->
